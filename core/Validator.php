@@ -31,7 +31,7 @@ trait Validator
 				
 					if($rulevalue === "required" && Input::required($requestvalue)){
 
-						$this->addErrors(["{$requestname} is required"]);
+						$this->addErrors("{$requestname} is required");
 							
 					} else {
 
@@ -55,7 +55,7 @@ trait Validator
 
 									if(strlen($requestvalue) < (int)$val){
 
-										$this->addErrors(["{$requestname} must be minimum {$val} characters"]);
+										$this->addErrors("{$requestname} must be minimum {$val} characters");
 									}
 
 									break;
@@ -64,7 +64,7 @@ trait Validator
 
 									if(strlen($requestvalue) > (int)$val){
 
-										$this->addErrors(["{$requestname} must be maximum {$val} characters"]);
+										$this->addErrors("{$requestname} must be maximum {$val} characters");
 									}
 
 									break;
@@ -80,7 +80,7 @@ trait Validator
 
 									if (! Input::email($requestvalue)) {
 
-										$this->addErrors(["{$requestname} is not valid"]);
+										$this->addErrors("{$requestname} is not valid");
 
 									}
 
@@ -94,7 +94,7 @@ trait Validator
 									
 									if($requestvalue != $request[$rulevalue]){
 
-										$this->addErrors(["{$requestname} must be match"]);
+										$this->addErrors("{$requestname} must be match");
 
 									}
 									

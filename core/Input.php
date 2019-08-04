@@ -7,7 +7,7 @@ class Input
 {
 
 	const POST 	=	'post';
-	const GET 	=	'get'
+	const GET 	=	'get';
 
 	public static function exists($type)
 	{
