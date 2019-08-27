@@ -8,7 +8,7 @@ class Router
 
 {
 
-	protected $routes = [
+	protected static $routes = [
 
 		'GET' => [],
 		'POST' => []
@@ -26,17 +26,17 @@ class Router
 	}
 
 
-	public function get($uri, $controller)
+	public static function get($uri, $controller)
 	{
 
-		$this->routes['GET'][$uri] = $controller;
+		self::$routes['GET'][$uri] = $controller;
 	
 	}
 
-	public function post($uri, $controller)
+	public static function post($uri, $controller)
 	{
 
-		$this->routes['POST'][$uri] = $controller;
+		self::$routes['POST'][$uri] = $controller;
 	
 	}
 
@@ -46,26 +46,44 @@ class Router
 
 	{
 
-		if(array_key_exists($uri, $this->routes[$requestType])){
-
-		
-
+		if (array_key_exists($uri, self::$routes[$requestType])) {
+			
 			return $this->callAction(
-
-			...explode("@", $this->routes[$requestType][$uri])
-
+				
+				...explode('@', self::$routes[$requestType][$uri])
 			);
-		}
 
-		return require 'app/views/notfound.view.php';
-		throw new Exception("No route define for this uri");
+		}else{
+			
+			foreach (self::$routes[$requestType] as $key => $val){
+			
+				$pattern = preg_replace('#\(/\)#', '/?', $key);
+				$pattern = "@^" .preg_replace('/{([a-zA-Z0-9\_\-]+)}/', '(?<$1>[a-zA-Z0-9\_\-]+)', $pattern). "$@D";
+				preg_match($pattern, $uri, $matches);
+				array_shift($matches);
+			
+				if($matches){
+			
+					$getAction = explode('@', $val);
+					return $this->callAction($getAction[0], $getAction[1], $matches);
+			
+				}
+			}
 		
+		}
+		
+
+		echo "<h1>Page Not Found </h1>";
+		// throw new Exception('No route defined for this URI.');
+
+
 	}
 
-	protected function callAction($controller, $action)
+	protected function callAction($controller, $action, $vars = [])
 	{
 
 		$controller = "App\Controllers\\{$controller}";
+		
 		$controller = new $controller;
 
 		if (! method_exists($controller, $action)) {
@@ -74,7 +92,7 @@ class Router
 			
 		}
 
-		return $controller->$action();
+		return $controller->$action($vars);
 	}
 
 }

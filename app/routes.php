@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Core\Router;
 /*
 |
 |----------------------------------------------------
@@ -11,5 +11,5 @@
 |
 */
 
-$router->get('', 'PagesController@home');
+Router::get('', 'PagesController@home');
 

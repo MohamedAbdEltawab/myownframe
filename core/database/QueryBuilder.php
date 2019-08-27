@@ -28,7 +28,7 @@ class QueryBuilder
 
 		$statment->execute();
 
-		return $statment->fetchAll(PDO::FETCH_CLASS); 
+		return $statment->fetchAll(PDO::FETCH_OBJ); 
 	}
 
 
@@ -48,7 +48,7 @@ class QueryBuilder
 
 			$statment = $this->pdo->prepare($sql);
 	
-			$statment->execute($parameters);
+			return $statment->execute($parameters);
 
 		}catch(Exception $e){
 			
@@ -70,7 +70,7 @@ class QueryBuilder
 
 		$statment->execute();
 
-		return $statment->fetchAll(PDO::FETCH_OBJ);
+		return $statment->fetch(PDO::FETCH_OBJ);
 
 	}
 
@@ -108,7 +108,7 @@ class QueryBuilder
 
 		$statment = $this->pdo->prepare($sql);
 
-		$statment->execute($parameters);
+		return $statment->execute($parameters);
 		
 
 	}
@@ -122,7 +122,7 @@ class QueryBuilder
 
 		$statment = $this->pdo->prepare($sql);
 		
-		$statment->execute();
+		return $statment->execute();
 
 	}
 

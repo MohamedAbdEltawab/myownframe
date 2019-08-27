@@ -52,7 +52,7 @@ class Model
 	public static function delete($id)
 	{
 
-		App::get('database')->delete(static::$table, $id);
+		return App::get('database')->delete(static::$table, $id);
 	
 	}
 
